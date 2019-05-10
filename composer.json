@@ -3,7 +3,6 @@
     "description": "Odoo connector Bundle",
     "type": "symfony-bundle",
     "license": "MIT",
-    "version": "1.0.0", 
     "authors": [
         {
             "name": "Bassem Jabloun",
