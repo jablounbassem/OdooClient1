@@ -12,7 +12,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Odoo//Connectorbundle":"Odoo/Connectorbundle/"
+            "Odoo\\ConnectorBundle\\":"src/"
         }
     }
 
