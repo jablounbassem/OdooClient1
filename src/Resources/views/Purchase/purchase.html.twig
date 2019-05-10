@@ -1,0 +1,149 @@
+{% extends '@OdooConnector/master/index.html.twig' %}
+{% block titre %}
+    {{ purchase.name }}
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/theme-custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.css') }}" />
+
+{% endblock %}
+{% block navbar %}
+    {% include '@OdooConnector/icludes/purchase_nav.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    <br>
+    <b><a href="{{ path('odoo_connector_purchaseOrderLists') }}" style="color: #5F5E97">Demandes des prix</a> / {{ purchase.display_name }}</b> <br>
+    <form class="form-horizontal form-bordered"  method="post" action="{{ path('odoo_connector_addPurchase') }}">
+        <a href="{{ path('odoo_connector_updatePurchaseForm',{'id':purchase.id}) }}" class="btn btn-sm btn-primary" >Modifier</a>
+        <a href="{{ path('odoo_connector_addPurchaseForm') }}"><span class="btn btn-sm btn-default">Créer</span></a>
+        <br><br>
+        <section class="panel">
+
+            <div class="panel-heading">
+               <h3><b>{{ purchase.name }}</b></h3>
+                <br>
+
+
+                <div class="row">
+
+
+                    <div class="col-md-2" style=" border-right: 1px solid silver; ">
+
+                        <div ><b>Fournisseur</b></div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div>{{ purchase.partner_id[1]}}</div>
+
+                    </div>
+                    <div class="col-md-2" style=" border-right: 1px solid silver; "><b>Date de la commande</b></div>
+                    <div class="col-md-2">{{ purchase.date_order|date('d/m/Y h:m:s') }}</div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-2" style=" border-right: 1px solid silver; ">
+                        <br>
+                        <div style="font-weight: lighter"><b>Référence Fournisseur</b></div>
+
+                    </div>
+                    <div class="col-md-2">
+                        <br>
+                        {{ purchase.partner_ref }}
+
+                    </div>
+                </div>
+                <br><br>
+                <!-- -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="panel">
+
+                            <div class="">
+                                <div class="table-responsive">
+                                    <table class="table" style="background-color:#ffffff">
+                                        <thead class="active" style="background-color:#CCCCCC">
+                                        <th scope="col">Article</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Date prévue</th>
+                                        <th scope="col">Quantité</th>
+                                        <th scope="col">Prix unitaire</th>
+                                        <th scope="col">Taxes</th>
+                                        <th scope="col">Sous-Total</th>
+
+                                        </thead>
+                                        <tbody id="container">
+                                        {% if (commandeLines|length) > 0 %}
+                                            {% for cl in commandeLines %}
+                                        <tr>
+                                            <td>{{ cl.product_id[1]}}</td>
+                                            <td>{{ cl.name}}</td>
+                                            <td>{{ cl.date_planned|date('d/m/Y h:m:s')}}</td>
+                                            <td>{{ cl.product_qty}}</td>
+                                            <td>{{ cl.price_unit}}</td>
+                                            <td>
+
+                                                {% if cl.taxes is defined %}
+                                                    {% for taxe in cl.taxes %}
+                                                     <div style="border-radius: 100px;  border-color: #CCCCCC;border-style: solid;  ">{{ taxe }}</div>
+                                                    {% endfor  %}
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ cl.price_subtotal }} DT</td>
+                                        </tr>
+
+                                            {% endfor %}
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><b>Montant HT :</b></td>
+                                                <td>{{ purchase.amount_untaxed }} DT</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><b>Taxes :</b></td>
+                                                <td>{{ purchase.amount_tax}} DT</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><b>Total :</b></td>
+                                                <td>{{ purchase.amount_total }} DT</td>
+                                            </tr>
+                                        {% endif %}
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </form>
+{% endblock %}
+
+{% block javacript %}
+    <script src="{{ asset('assets/vendor/jquery-autosize/jquery.autosize.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.js') }}"></script>
+
+{% endblock %}

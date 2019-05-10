@@ -1,0 +1,118 @@
+{% extends '@OdooConnector/master/index.html.twig' %}
+{% block titre %}
+    Demande de prix
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/theme-custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.css') }}" />
+
+{% endblock %}
+{% block navbar %}
+    {% include '@OdooConnector/icludes/purchase_nav.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    <br>
+   <b><a href="{{ path('odoo_connector_purchaseOrderLists') }}" style="color: #5F5E97">Demandes des prix</a> / Nouveau</b> <br>
+    <form class="form-horizontal form-bordered"  method="post" action="{{ path('odoo_connector_addPurchase') }}">
+      <input type="submit" class="btn btn-sm btn-primary" value="Sauvgarder">
+    <a type=""><span class="btn btn-sm btn-default">Annuler</span></a>
+    <br><br>
+    <section class="panel">
+
+        <div class="panel-heading">
+            <h2><b>New</b></h2>
+                <div class="form-group" >
+                    <label class="col-md-2 control-label" for="inputDefault">Fournisseur</label>
+                    <div class="col-md-3">
+                        <select class="form-control input-sm mb-md"  name="vendor">
+                            {% for vendor in vendors %}
+                                <option value="{{ vendor.id }}">{{ vendor.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <label class="col-md-2 control-label" for="inputDefault">Date de la commande</label>
+                    <div class="col-md-3">
+                        <div class="input-group">
+							<span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="date"  name="planned_date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <label class="col-md-2 control-label" for="inputDisabled">Référence fournisseur</label>
+                    <div class="col-md-3">
+                        <input class="form-control" name="partner_ref" id="inputDisabled" type="text"  >
+                    </div>
+                </div>
+
+    <!-- -->
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="panel">
+
+                        <div class="">
+                            <div class="table-responsive">
+                                <table class="table mb-none">
+                                    <thead class="active">
+                                    <th scope="col">Article</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Date prévue</th>
+                                    <th scope="col">Quantité</th>
+                                    <th scope="col">Prix unitaire</th>
+                                    <th scope="col">Taxes</th>
+                                    <th scope="col">Sous-Total</th>
+                                    <th></th>
+
+                                    </thead>
+                                    <tbody id="container">
+
+
+                                    </tbody>
+
+                                </table>
+                                <a href="#" id="add">Ajouter une ligne</a>
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- -->
+
+        </div>
+
+    </section>
+
+    </form>
+{% endblock %}
+
+{% block javacript %}
+    <script src="{{ asset('assets/vendor/jquery-autosize/jquery.autosize.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.js') }}"></script>
+    <script>
+$(document).ready(function(e){
+    // var
+            var html=  "<tr><div><td><select class=\"form-control input-sm mb-sm\" name=\"article[]\">{% for article in articles %}<option value=\"{{ article.id }}\">{{ article.display_name }}</option>{% endfor %}</select></td><td><textarea name=\"description[]\"  cols=\"10\" rows=\"2\"></textarea>\n</td><td><div class=\"input-group\"><span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span><input type=\"date\"  class=\"form-control\"  name=\"date[]\" style=\"width: 13em;\"  ></div></td><td><input type=\"number\" class=\"spinner-input form-control\" style=\"width: 7em;\"  name=\"quantite[]\" size=\"2\" min=\"1\" ></td><td><input style=\"width: 7em;\" type=\"number\" class=\"spinner-input  form-control\" name=\"pu[]\"  min=\"0\" ></td><td><select class=\"form-control input-sm mb-sm\" name=\"taxe[]\"><option value=\"\"></option>{% for taxe in taxes %}<option value=\"{{ taxe.id }}\">{{ taxe.display_name }}</option>{% endfor %}</select></td><td><input type=\"hidden\" class=\"spinner-input form-control\" ></td><td><a href=\"#\" id=\"remove\" class=\"delete-row\"><i class=\"fa fa-trash-o\"></i></a></td></div></tr>";
+    // add rows
+    $('#add').click(function (e) {
+    $('#container').append(html)
+    });
+    //remove forms
+    $('#container').on('click','#remove',function (e) {
+        $(this).parents('tr').remove();
+    });
+});
+
+function ConfirmMessage() {
+    window.alert("sometext");
+
+}
+
+    </script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{
+    "name": "sofia-holding/odoo-connector-bundle",
+    "description": "Odoo connector Bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "version": "1.0.0", 
+    "authors": [
+        {
+            "name": "Bassem Jabloun",
+            "email": "bassem.jabloun@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "":"src/"
+        }
+    }
+
+}

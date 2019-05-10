@@ -1,0 +1,91 @@
+{% extends '@OdooConnector/master/index.html.twig' %}
+{% block titre %}
+    Demande de prix
+{% endblock %}
+
+{% block navbar %}
+{% include '@OdooConnector/icludes/purchase_nav.html.twig' %}
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/vendor/select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatables-bs3/assets/css/datatables.css') }}" />
+    <script src="{{ asset('assets/vendor/modernizr/modernizr.js') }}"></script>
+
+{% endblock %}
+{% block header %}
+
+{% endblock %}
+{% block body %}
+    <br>
+    <div style="background-color: #ffffff; padding-top: 25px;padding-left: 20px">
+        <h4><b>Demandes des prix</b></h4>
+        <a href="{{ path('odoo_connector_addPurchaseForm') }}"><span  class="btn btn-sm btn-primary" >Créer</span></a>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped mb-none" id="datatable-default">
+                            <thead class="active">
+                            <th scope="col">Référence</th>
+                            <th scope="col">Date de la commande</th>
+                            <th scope="col">Fournisseur</th>
+                            <th scope="col">Date prévue</th>
+                            <th scope="col">Responsable achats</th>
+                            <th scope="col">Hors taxe</th>
+                            <th scope="col">Total</th>
+                            </thead>
+                            <tbody>
+                            {% for purchase in purchases %}
+
+                            <tr style="color: #000000">
+
+                                <td><a href="{{ path('odoo_connector_getPurchase',{'id':purchase.id}) }}" style="color: #000000">{{ purchase.name }}</a></td>
+                                <td>{{ purchase.date_order }} </td>
+                                    <td>{{ purchase.partner_id['1'] }}</td>
+                                    <td>{{ purchase.date_planned }}</td>
+                                    <td>{{ purchase.user_id['1'] }}</td>
+                                    <td>{{ purchase.amount_untaxed }}</td>
+                                    <td>{{ purchase.amount_total }}</td>
+
+                                </tr>
+
+
+                            {% endfor %}
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    {% block javacript %}
+        <script src="{{ asset('assets/vendor/select2/select2.js') }}"></script>
+        <script src="{{ asset('assets/vendor/jquery-datatables/media/js/jquery.dataTables.js') }}"></script>
+        <script src="{{ asset('assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/jquery-datatables-bs3/assets/js/datatables.js') }}"></script>
+
+
+    {% endblock %}
+    {% block example %}
+        <!-- Theme Base, Components and Settings -->
+        <script src="{{ asset('assets/javascripts/theme.js') }}"></script>
+
+        <!-- Theme Custom -->
+        <script src="{{ asset('assets/javascripts/theme.custom.js') }}"></script>
+
+        <!-- Theme Initialization Files -->
+        <script src="{{ asset('assets/javascripts/theme.init.js') }}"></script>
+        <!-- Examples -->
+        <script src="{{ asset('assets/javascripts/tables/examples.datatables.default.js') }}"></script>
+        <script src="{{ asset('assets/javascripts/tables/examples.datatables.tabletools.js') }}"></script>
+
+
+    {%endblock  %}
+{% endblock %}

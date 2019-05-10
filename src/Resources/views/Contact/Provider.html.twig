@@ -1,0 +1,70 @@
+{% extends '@OdooConnector/master/index.html.twig' %}
+{% block titre %}
+Fournissuers
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/theme-custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.css') }}" />
+
+{% endblock %}
+{% block navbar %}
+    {% include '@OdooConnector/icludes/purchase_nav.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    <br>
+    <h4>Fournisseurs</h4>
+    <form class="form-horizontal form-bordered"  method="post" action="{{ path('odoo_connector_addPurchase') }}">
+        <a href="#" class="btn btn-sm btn-primary" >Créer</a>
+        <br><br>
+        <br><br>
+        <section class="panel">
+
+            <div class="panel-heading">
+
+                <div class="row">
+                    {% for provider in providers  %}
+
+
+
+                        <!--- -->
+                        <div class="col-md-4">
+                            <section class="panel panel-horizontal">
+                                <header class="panel-heading bg-white">
+                                    <img src="http://192.168.99.100:8069/web/image?model=res.partner&field=image_small&id={{ provider.id }}&unique=" alt="">
+
+                                </header>
+                                <div class="panel-body p-lg">
+                                    <h4 class="text-semibold mt-sm">{{ provider.name }}</h4>
+                                    {% for categorie in provider.categories  %}
+                                     <p > <span class="fa fa-angle-double-right"></span> {{ categorie }}</p>
+                                    {% endfor %}
+                                    <p><span class="fa fa-map-marker">&nbsp;</span>{{ provider.city  }}| {{ provider.country_id[1] }}</p>
+                                    <p><span class="fa fa-envelope">&nbsp;</span> {{ provider.email  }}</p>
+                                </div>
+                            </section>
+
+                        </div>
+
+                        <!-- -->
+                    {% endfor %}
+
+
+                </div>
+
+                <!-- -->
+
+                <!-- -->
+            </div>
+
+        </section>
+
+    </form>
+{% endblock %}
+
+{% block javacript %}
+
+    <script>
+
+    </script>
+{% endblock %}
